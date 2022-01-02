@@ -15,15 +15,20 @@ def submit_todo():
         data["completed"] = False
 
         mongo.db.todos.insert_one(data)
-        mongo.db.todos.delete_one({'_id': data['_id']})
-        
-        all_result = mongo.db.todos.find()
-        all_todos = json_util.loads(json_util.dumps(all_result))
 
-        for i in all_todos: i['_id'] = str(i['_id'])
+        return jsonify({'ok': True, 'message': 'True request method'}), 200
 
-        # return jsonify({'ok': True, 'message': 'True request method'}), 200
-        return jsonify({'ok': True, 'message': 'True request method', 'todos_list': all_todos}), 200
+    return jsonify({'ok': False, 'message': 'False request method'}), 400
+
+@todos.route("/fetch_todo")
+def fetch_todo():
+    if request.method == 'GET':
+        query_result = mongo.db.todos.find()
+        final_result = json_util.loads(json_util.dumps(query_result))
+        for i in final_result: i['_id'] = str(i['_id'])
+
+        return jsonify({'ok': True, 'message': 'True request method', 'todos_list': final_result}), 200
+
 
     return jsonify({'ok': False, 'message': 'False request method'}), 400
 
