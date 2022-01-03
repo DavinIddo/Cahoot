@@ -60,8 +60,8 @@ function TodoTabs({listOfTabs}) {
                     <div key={index} className={activeTabs === index ? 'active-content-tab' : 'dormant-content-tab'}>
                         <h4>This is the content of {tab}</h4>
                         {tab === 'Unfinished' ? 
-                            unfinishedList.map(list => <li>{list.input}</li>) : 
-                            completedList.map(list => <li>{list.input}</li>)
+                            unfinishedList.map((list, index) => <li key={index}>{list.input}</li>) : 
+                            completedList.map((list, index) => <li key={index}  >{list.input}</li>)
                         }
                     </div>  
                 ))}
