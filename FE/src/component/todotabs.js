@@ -4,19 +4,17 @@ import './todotabs.css';
 
 function TodoTabs({listOfTabs}) {
     const [activeTabs, setActiveTabs] = useState(0)
-    const [unfinisedList, setUnfinishedList] = useState([])
+    const [unfinishedList, setUnfinishedList] = useState([])
     const [completedList, setCompletedList] = useState([])
 
     function handleClick(index) {
         setActiveTabs(index)
     }
 
-    function getUnfinisedList() {
-        fetch('http://localhost:4000/fetch_todo')
+    function getunfinishedList() {
+        fetch('http://localhost:4000/fetch_todo/incomplete')
         .then(response => response.json())
         .then(result => {
-            // console.log(result.todos_list)
-            console.log("success")
             if (result.ok === true) {
                 setUnfinishedList(result.todos_list)
             } else {
@@ -29,7 +27,7 @@ function TodoTabs({listOfTabs}) {
     }
 
     function getCompletedList() {
-        fetch('/fetch_todo')
+        fetch('http://localhost:4000/fetch_todo/complete')
         .then(response => response.json())
         .then(result => {
             if (result.ok === true) {
@@ -44,7 +42,8 @@ function TodoTabs({listOfTabs}) {
     }
 
     useEffect(() => {
-        getUnfinisedList()
+        getunfinishedList()
+        getCompletedList()
     }, [])
 
     return (
@@ -60,7 +59,10 @@ function TodoTabs({listOfTabs}) {
                 {listOfTabs.map((tab, index) => (
                     <div key={index} className={activeTabs === index ? 'active-content-tab' : 'dormant-content-tab'}>
                         <h4>This is the content of {tab}</h4>
-                        {unfinisedList.map(list => <li>{list.input}</li>)}
+                        {tab === 'Unfinished' ? 
+                            unfinishedList.map(list => <li>{list.input}</li>) : 
+                            completedList.map(list => <li>{list.input}</li>)
+                        }
                     </div>  
                 ))}
             </div>
