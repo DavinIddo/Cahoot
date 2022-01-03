@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Header from './component/header';
 import Addbar from './component/addbar';
 import TodoTable from './component/todotable';

@@ -9,10 +9,36 @@ function AddBar() {
     //     onSubmission(task)
     // }
 
-    // Act similar to the above const
+    // --------- Act similar to the above const --------- //
+    // function handleSubmission(event) {
+    //     event.preventDefault();
+    // }
+
     function handleSubmission(event) {
-        event.preventDefault();
+        const submittedTask = {'input': task}
+        event.preventDefault()
         
+        console.log("start fetch")
+        fetch('http://localhost:4000/submit_todo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(submittedTask)
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            if (result.ok === true) {
+                console.log('Success')
+            } else {
+                alert(result.message)
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
     }
 
     return (
