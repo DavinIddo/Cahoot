@@ -18,7 +18,6 @@ function AddBar() {
         const submittedTask = {'input': task}
         event.preventDefault()
         
-        console.log("start fetch")
         fetch('http://localhost:4000/submit_todo', {
             method: 'POST',
             headers: {
@@ -28,9 +27,8 @@ function AddBar() {
         })
         .then(response => response.json())
         .then(result => {
-            console.log(result)
             if (result.ok === true) {
-                console.log('Success')
+                window.location.reload(false)
             } else {
                 alert(result.message)
             }
