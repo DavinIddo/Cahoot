@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { List, Checkbox } from '@material-ui/core';
 import PropTypes from 'prop-types'
 import './todotabs.css';
 
@@ -9,41 +10,29 @@ function TodoTabs({listOfTabs}) {
 
     function handleClick(index) {
         setActiveTabs(index)
-    }
+    }   
 
-    function getunfinishedList() {
-        fetch('http://localhost:4000/fetch_todo/incomplete')
+    function getList(completed_status) {
+        const status = (completed_status === 0 ? 'complete' : 'incomplete')
+
+        fetch('http://localhost:4000/fetch_todo/' + status)
         .then(response => response.json())
         .then(result => {
-            if (result.ok === true) {
-                setUnfinishedList(result.todos_list)
-            } else {
-                alert(result.message)
-            }
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    }
-
-    function getCompletedList() {
-        fetch('http://localhost:4000/fetch_todo/complete')
-        .then(response => response.json())
-        .then(result => {
-            if (result.ok === true) {
+            if (result.ok === true && status === 'complete') {
                 setCompletedList(result.todos_list)
-            } else {
+            } 
+            else if (result.ok === true && status === 'incomplete') {
+                setUnfinishedList(result.todos_list)
+            } 
+            else {
                 alert(result.message)
             }
-        })
-        .catch(error => {
-            console.log(error)
         })
     }
 
     useEffect(() => {
-        getunfinishedList()
-        getCompletedList()
+        getList(0)
+        getList(1)
     }, [])
 
     return (
@@ -60,7 +49,7 @@ function TodoTabs({listOfTabs}) {
                     <div key={index} className={activeTabs === index ? 'active-content-tab' : 'dormant-content-tab'}>
                         <h4>This is the content of {tab}</h4>
                         {tab === 'Unfinished' ? 
-                            unfinishedList.map((list, index) => <li key={index}>{list.input}</li>) : 
+                            unfinishedList.map((list, index) => <li key={index}  >{list.input}</li>) : 
                             completedList.map((list, index) => <li key={index}  >{list.input}</li>)
                         }
                     </div>  
