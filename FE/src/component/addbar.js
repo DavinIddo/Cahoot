@@ -41,7 +41,6 @@ function AddBar() {
 
     return (
         <div>
-            <p>This is the add bar</p>
             <form onSubmit={handleSubmission}>
                 <TextField label="Add task" variant="outlined" onChange={e => setTask(e.target.value)} />
                 <Button variant="contained" type="submit">Submit</Button>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { makeStyles, Checkbox, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
-import ListItemButton from '@mui/material/ListItemButton';
+import { makeStyles } from '@material-ui/core';
+import { Checkbox, List, ListItem, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types'
 import './todotabs.css';
 
@@ -104,7 +105,7 @@ function TodoTabs({listOfTabs}) {
     useEffect(() => {
         getList(0)
         getList(1)
-    }, [])
+    }, [activeTabs])
 
     return (
         <div className='container'>
@@ -118,7 +119,6 @@ function TodoTabs({listOfTabs}) {
             <div className='contents'>
                 {listOfTabs.map((tab, index) => (
                     <div key={index} className={activeTabs === index ? 'active-content-tab' : 'dormant-content-tab'}>
-                        <h4>This is the content of {tab}</h4>
                         {tab === 'Unfinished' ? listedTodos(unfinishedList) : listedTodos(completedList)}
                     </div>  
                 ))}

@@ -50,9 +50,7 @@ def fetch():
 def update_check():
     if request.method == 'POST':
         data = request.get_json()
-        print(data)
         converted_data = ObjectId(data['_id'])
-        print(converted_data)
 
         query_completed_result = mongo.db.todos.find_one(
             {'_id': converted_data}
