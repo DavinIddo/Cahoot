@@ -47,24 +47,24 @@ function TodoTabs({listOfTabs}) {
     }
 
     function handleCheck(value) {
-        // fetch('http://localhost:4000/submit_todo', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(id)
-        // })
-        // .then(response => response.json())
-        // .then(result => {
-        //     if (result.ok === true) {
-        //         console.log("success")
-        //     } else {
-        //         alert(result.message)
-        //     }
-        // })
-        // .catch(error => {
-        //     console.log(error)
-        // })
+        fetch('http://localhost:4000/update_check', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(value)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.ok === true) {
+                console.log("success")
+            } else {
+                alert(result.message)
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
 
         const currentIndex = checked.indexOf(value)
         const newChecked = [...checked]

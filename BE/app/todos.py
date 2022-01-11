@@ -1,5 +1,6 @@
+from dns.resolver import query
 from flask import Blueprint, request, jsonify, render_template
-from bson import json_util
+from bson import json_util, ObjectId
 from .extension import mongo
 
 todos = Blueprint('todos', __name__)
@@ -42,5 +43,26 @@ def fetch():
         for i in final_result: i['_id'] = str(i['_id'])
 
         return jsonify({'ok': True, 'message': 'True request method', 'todos_list': final_result}), 200
+
+    return jsonify({'ok': False, 'message': 'False request method'}), 400
+
+@todos.route("/update_check", methods=["POST"])
+def update_check():
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+        converted_data = ObjectId(data['_id'])
+        print(converted_data)
+
+        query_completed_result = mongo.db.todos.find_one(
+            {'_id': converted_data}
+        )
+
+        mongo.db.todos.update_one(
+            {'_id': converted_data},
+            { '$set': { 'completed': not(query_completed_result['completed'])}}
+        )
+    
+        return jsonify({'ok': True, 'message': 'The item has been updated'}), 200
 
     return jsonify({'ok': False, 'message': 'False request method'}), 400
