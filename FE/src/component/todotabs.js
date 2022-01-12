@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core';
-import { Checkbox, List, ListItem, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
+import { Button, makeStyles } from '@material-ui/core';
+import { Checkbox, List, ListItem, ListItemText, ListItemIcon, ListItemButton, IconButton } from '@mui/material';
+import { Dialog, DialogTitle, DialogActions } from '@mui/material';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types'
@@ -27,6 +28,8 @@ function TodoTabs({listOfTabs}) {
     const [unfinishedList, setUnfinishedList] = useState([])
     const [completedList, setCompletedList] = useState([])
     const [checked, setChecked] = useState([])
+    const [open, setOpen] = useState(false)
+    const [toDelete, setToDelete] = useState('')
     const classes = useStyles()
 
     const listedTodos = (list) => {
@@ -34,7 +37,11 @@ function TodoTabs({listOfTabs}) {
             <div>
                 <List>
                     {list.map((content, index) => (
-                        <ListItem key={index}>
+                        <ListItem key={index} secondaryAction={
+                            <IconButton edge='end' aria-label='delete' onClick={() => handleDelete([true, 1, content])}>
+                                <DeleteIcon />
+                            </IconButton>
+                        }>
                             <ListItemButton onClick={() => handleCheck(content)}>
                                 <ListItemIcon><FormatListBulletedIcon /></ListItemIcon>
                                 <ListItemText classes={{primary: classes.listItemText}} primary={content.input} />
@@ -45,6 +52,35 @@ function TodoTabs({listOfTabs}) {
                 </List>
             </div>
         )
+    }
+
+    function handleDelete(value) {
+        if (value[1] === 1) {
+            setToDelete(value[2])
+        } 
+        else if (value[1] === 2) {
+            fetch('http://localhost:4000/delete_todo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(toDelete)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.ok === true) {
+                    window.location.reload(false)
+                } else {
+                    alert(result.message)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        }
+
+        setOpen(value[0])
     }
 
     function handleCheck(value) {
@@ -123,6 +159,15 @@ function TodoTabs({listOfTabs}) {
                     </div>  
                 ))}
             </div>
+            <Dialog open={open} onClose={() => handleDelete([false])} aria-labelledby="alert-dialog-title">
+                <DialogTitle id='alert-dialog-title'>
+                    Delete this todo?
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => handleDelete([false, 2])}>Yes</Button>
+                    <Button onClick={() => handleDelete([false, 0])}>No</Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }

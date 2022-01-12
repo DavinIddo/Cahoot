@@ -64,3 +64,15 @@ def update_check():
         return jsonify({'ok': True, 'message': 'The item has been updated'}), 200
 
     return jsonify({'ok': False, 'message': 'False request method'}), 400
+
+@todos.route("/delete_todo", methods=["POST"])
+def delete_todo():
+    if request.method == 'POST':
+        data = request.get_json()
+        converted_data = ObjectId(data['_id'])
+
+        mongo.db.todos.delete_one({'_id': converted_data})
+
+        return jsonify({'ok': True, 'message': 'The item has been updated'}), 200
+
+    return jsonify({'ok': False, 'message': 'False request method'}), 400
