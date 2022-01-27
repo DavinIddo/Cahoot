@@ -5,22 +5,55 @@ import { Dialog, DialogTitle, DialogActions } from '@mui/material';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types'
-import './todotabs.css';
 
 const useStyles = makeStyles({
     listItemText: {
         fontSize: '120%',
         textAlign: 'center'
+    },
+    container: {
+        border: '1.5px solid',
+        borderTop: '1px solid transparent',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: '2%',
+        width: '50%',
+        borderColor: 'rgba(83, 82, 82, 0.5)'
+    },
+    tabs: {
+        display: 'flex',
+        marginBottom: '10px'
+    },
+    contents: {
+
+    },
+    tab: {
+        borderBottom: '1px solid',
+        borderColor: 'rgba(83, 82, 82, 0.5)',
+        padding: '10px',
+        textAlign: 'center',
+        width: '52%',
+        background: 'rgba(128, 128, 128, 0.075)',
+        cursor: 'pointer',
+        boxSizing: 'border-box',
+        borderBottomRightRadius: '10px',
+        borderBottomLeftRadius: '10px'
+    },
+    activeTab: {
+        background: 'white',
+        borderTop: '1.5px solid',
+        borderBottom: '1px solid transparent',
+        cursor: 'auto',
+        borderRadius: '10px',
+        transform: 'translateY(-10px)',
+        borderTopColor: 'black'
+    },
+    activeContentTab: {
+        display: 'inline'
+    },
+    dormantContentTab: {
+        display: 'none'
     }
-    // itemChecked: {
-    //     fontSize: '120%',
-    //     textAlign: 'center'
-    // },
-    // itemUnchecked: {
-    //     fontSize: '120%',
-    //     textAlign: 'center',
-    //     textDecoration: 'line-through' 
-    // }
 })
 
 function TodoTabs({listOfTabs}) {
@@ -144,17 +177,17 @@ function TodoTabs({listOfTabs}) {
     }, [activeTabs])
 
     return (
-        <div className='container'>
-            <div className='tabs'>
+        <div className={classes.container}>
+            <div className={classes.tabs}>
                 {listOfTabs.map((tab, index) => (
-                    <div key={index} className={activeTabs === index ? 'tab active-tab' : 'tab'}
+                    <div key={index} className={activeTabs === index ? classes.tab + ' ' + classes.activeTab : classes.tab}
                     onClick={() => handleClick(index)}>{tab}</div>
                 ))}
             </div>
 
-            <div className='contents'>
+            <div className={classes.contents}>
                 {listOfTabs.map((tab, index) => (
-                    <div key={index} className={activeTabs === index ? 'active-content-tab' : 'dormant-content-tab'}>
+                    <div key={index} className={activeTabs === index ? classes.activeContentTab : classes.dormantContentTab}>
                         {tab === 'Unfinished' ? listedTodos(unfinishedList) : listedTodos(completedList)}
                     </div>  
                 ))}

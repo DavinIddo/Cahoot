@@ -1,11 +1,19 @@
 import Header from './component/header';
 import Addbar from './component/addbar';
 import TodoTable from './component/todotable';
-import './App.css';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles( {
+  app: {
+    textAlign: 'center'
+  }
+})
 
 function App() {
+  const classes = useStyles()
+
   return (
-    <div className="App">
+    <div className={classes.app}>
       <Header />
       <Addbar />
       <TodoTable />

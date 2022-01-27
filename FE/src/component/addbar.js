@@ -1,7 +1,14 @@
 import { useState } from 'react';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, makeStyles } from '@material-ui/core';
+
+const useStyle = makeStyles({
+    inputForm: {
+        marginTop: '2%'
+    }
+})
 
 function AddBar() {
+    const classes = useStyle()
     const [task, setTask] = useState('');
 
     // const handleSubmission = e => {
@@ -41,7 +48,7 @@ function AddBar() {
 
     return (
         <div>
-            <form onSubmit={handleSubmission}>
+            <form class={classes.inputForm} onSubmit={handleSubmission}>
                 <TextField label="Add task" variant="outlined" onChange={e => setTask(e.target.value)} />
                 <Button variant="contained" type="submit">Submit</Button>
             </form>
