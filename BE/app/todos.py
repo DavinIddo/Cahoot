@@ -1,4 +1,3 @@
-from dns.resolver import query
 from flask import Blueprint, request, jsonify, render_template
 from bson import json_util, ObjectId
 from .extension import mongo
