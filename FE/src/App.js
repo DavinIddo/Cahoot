@@ -1,22 +1,17 @@
-import Header from './component/header';
-import Addbar from './component/addbar';
-import TodoTable from './component/todotable';
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles( {
-  app: {
-    textAlign: 'center'
-  }
-})
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Search from './pages/Search';
+import Generate from './pages/Generate';
 
 function App() {
-  const classes = useStyles()
 
   return (
-    <div className={classes.app}>
-      <Header />
-      <Addbar />
-      <TodoTable />
+    <div>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Search />} />
+          <Route path='/generate' element={<Generate />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
