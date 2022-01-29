@@ -1,5 +1,5 @@
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Display from '../component/Display';
@@ -16,8 +16,7 @@ const useStyles = makeStyles({
 
 function Search() {
     const classes = useStyles()
-    const all_skills = ['Weakness Exploit', 'Attack Boost', 'Ice Resistance', 'Critical Eye', 'Gathering Up', 
-                        'Guard Up', 'Airborne']
+    const [skills, setSkills] = useState([])
     const [checked, setChecked] = useState([])
 
     function handleCheck(skill) {
@@ -37,6 +36,24 @@ function Search() {
         console.log('The following skills has been submitted to be seek within the database: ', checked)
     }
 
+    useEffect(() => {
+        fetch('http://localhost:4000/fetch_skills')
+        .then(response => response.json())
+        .then(result => {
+            const newSkills = []
+
+            for (const skill of result[0].skills) {
+                newSkills.push(skill.skill_name)
+            }
+            
+            setSkills(newSkills)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
+    }, [])
+
     return (
         <Container>
             <Typography variant='h5' component='h2' >
@@ -44,8 +61,8 @@ function Search() {
             </Typography>
 
             <Grid container spacing={4} className={classes.container}>
-                {all_skills.map((skill, index) => (
-                    <Grid item key={index} xs={6} md={4} lg={3}>
+                {skills.map((skill, index) => (
+                    <Grid item key={index} xs={12} sm={6} md={3} lg={2}>
                         <Display skill={skill} checked={checked.indexOf(skill) !== -1} handleCheck={handleCheck} />
                     </Grid>
                 ))}
