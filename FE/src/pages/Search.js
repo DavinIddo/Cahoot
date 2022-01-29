@@ -6,10 +6,15 @@ import Display from '../component/Display';
 
 const useStyles = makeStyles({
     submit: {
+        marginLeft: '2%',
         float: 'right'
     },
     container: {
         marginTop: '2%',
+        marginBottom: '2%'
+    },
+    clear: {
+        float: 'right',
         marginBottom: '2%'
     }
 })
@@ -34,6 +39,11 @@ function Search() {
 
     function handleSubmit() {
         console.log('The following skills has been submitted to be seek within the database: ', checked)
+    }
+
+    function handleClear() {
+        const newChecked = []
+        setChecked(newChecked)
     }
 
     useEffect(() => {
@@ -68,15 +78,26 @@ function Search() {
                 ))}
             </Grid>
             
-            <Button
-                onClick={() => handleSubmit()}
-                className={classes.submit} 
-                color='secondary' 
-                variant='contained' 
-                endIcon={<SendIcon />} 
-            >
-                Submit
-            </Button>
+            <div className={classes.submit}>
+                <Button
+                    onClick={() => handleSubmit()}
+                    color='secondary' 
+                    variant='contained' 
+                    endIcon={<SendIcon />} 
+                >
+                    Submit
+                </Button>
+            </div>
+
+            <div className={classes.clear}>
+                <Button
+                    onClick={() => handleClear()}
+                    color='warning'
+                    variant='contained'
+                >
+                    Clear
+                </Button>
+            </div>
         </Container>
     );
 }
