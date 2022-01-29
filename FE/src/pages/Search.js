@@ -38,7 +38,22 @@ function Search() {
     }
 
     function handleSubmit() {
-        console.log('The following skills has been submitted to be seek within the database: ', checked)
+        const skillList = { 'skills': checked }
+
+        fetch('http://localhost:4000/fetch_armor_with_skill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(skillList)
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
     function handleClear() {
