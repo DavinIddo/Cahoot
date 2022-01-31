@@ -1,9 +1,10 @@
-import { Drawer, makeStyles, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import { AppBar, Toolbar } from '@mui/material';
 import React from 'react';
 
-const useStyles = makeStyles({
-    root: {
-        // display: 'flex'
+const useStyles = makeStyles((theme) => {
+    return {
+        toolbar: theme.mixins.toolbar
     }
 })
 
@@ -11,18 +12,16 @@ function Layout({ children }) {
     const classes = useStyles()
 
     return (
-        <div className={classes.root}>
+        <div>
+            {/* app bar */}
+            <AppBar elevation={1}>
+                <Toolbar>
 
-            {/* side drawer */}
-            <Drawer variant="permanent" anchor='left'>
-                <div>
-                    <Typography variant="h5">
-                        Ninja Gaiden
-                    </Typography>
-                </div>
-            </Drawer>
+                </Toolbar>
+            </AppBar>
 
             <div>
+                <div className={classes.toolbar}/>
                 { children }
             </div>
         </div>

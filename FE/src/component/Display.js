@@ -6,7 +6,7 @@ function Display({ skill, checked, handleCheck }) {
 
     return (
         <div>
-            <Button variant='outlined' onClick={() => handleCheck(skill)}>
+            <Button variant='outlined' onClick={() => handleCheck(skill)} fullWidth>
                 <Typography variant='button'>{skill}</Typography>
                 <Checkbox color='primary' checked={checked} />
             </Button>

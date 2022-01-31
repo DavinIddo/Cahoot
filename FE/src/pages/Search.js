@@ -18,6 +18,9 @@ const useStyles = makeStyles({
     clear: {
         float: 'right',
         marginBottom: '2%'
+    },
+    title: {
+        marginTop: '2%'
     }
 })
 
@@ -96,7 +99,7 @@ function Search() {
 
     return (
         <Container>
-            <Typography variant='h5' component='h2' >
+            <Typography className={classes.title} variant='h4' component='h2' >
                 Search through all armor sets
             </Typography>
 
