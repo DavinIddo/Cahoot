@@ -1,8 +1,9 @@
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
-import Button from '@mui/material/Button';
+import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import Display from '../component/Display';
+import Result from '../component/Result';
 
 const useStyles = makeStyles({
     submit: {
@@ -23,6 +24,9 @@ function Search() {
     const classes = useStyles()
     const [skills, setSkills] = useState([])
     const [checked, setChecked] = useState([])
+    const [result, setResult] = useState({})
+    const [open, setOpen] = useState(false)    
+    const [resultKeys, setResultKeys] = useState([])
 
     function handleCheck(skill) {
         const currentIndex = checked.indexOf(skill)
@@ -48,8 +52,10 @@ function Search() {
             body: JSON.stringify(skillList)
         })
         .then(response => response.json())
-        .then(result => {
-            console.log(result)
+        .then(res => {
+            setResult(res)
+            setOpen(true)
+            setResultKeys(Object.keys(res))
         })
         .catch(error => {
             console.log(error)
@@ -59,6 +65,14 @@ function Search() {
     function handleClear() {
         const newChecked = []
         setChecked(newChecked)
+    }
+
+    function handleClose() {
+        setOpen(false)
+    }
+
+    function handleButton() {
+        console.log(result['Speed Sharpening'])
     }
 
     useEffect(() => {
@@ -113,6 +127,24 @@ function Search() {
                     Clear
                 </Button>
             </div>
+
+            <Button onClick={() => handleButton()}>Button</Button>
+
+            <Dialog 
+                open={open}
+                fullWidth={true}
+                maxWidth='xl'
+                onClose={() => handleClose()}
+            >
+                <DialogTitle>Result(s)</DialogTitle>
+                <DialogContent>
+                    { 
+                        resultKeys.map((skill, index) => (
+                            <Result key={index} skill={skill} armors={result[skill]} />
+                        ))
+                    }
+                </DialogContent>
+            </Dialog>
         </Container>
     );
 }
