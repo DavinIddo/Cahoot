@@ -1,6 +1,7 @@
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
-import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SendIcon from '@mui/icons-material/Send';
 import Display from '../component/Display';
 import Result from '../component/Result';
@@ -138,11 +139,17 @@ function Search() {
             >
                 <DialogTitle>Result(s)</DialogTitle>
                 <DialogContent>
-                    { 
-                        resultKeys.map((skill, index) => (
-                            <Result key={index} skill={skill} armors={result[skill]} />
-                        ))
-                    }
+                    {resultKeys.map((skill, index) => (
+                        <Accordion key={index}>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography>{ skill }</Typography>
+                            </AccordionSummary>
+
+                            <AccordionDetails>
+                                <Result armors={result[skill]}/>
+                            </AccordionDetails>
+                        </Accordion>
+                    ))}
                 </DialogContent>
             </Dialog>
         </Container>
