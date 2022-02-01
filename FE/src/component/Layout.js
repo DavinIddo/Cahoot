@@ -1,10 +1,11 @@
 import { makeStyles } from '@material-ui/core';
-import { AppBar, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Toolbar, Typography, IconButton, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import SettingsIcon from '@mui/icons-material/Settings';
-import React from 'react';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import React, { useState } from 'react';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -15,9 +16,10 @@ const useStyles = makeStyles((theme) => {
     }
 })
 
-function Layout({ children }) {
+function Layout({ children, isLoggedIn, handleLogout }) {
     const classes = useStyles()
     const navigate = useNavigate()
+    const [anchorEl, setAnchorEl] = useState(null)
 
     function handleSearch() {
         navigate('/')
@@ -25,6 +27,18 @@ function Layout({ children }) {
 
     function handleGenerate() {
         navigate('/generate')
+    }
+
+    function handleLogin() {
+        navigate('/login')
+    }
+
+    function handleClose() {
+        setAnchorEl(null)
+    }
+    
+    function handleMenu(event) {
+        setAnchorEl(event.currentTarget)
     }
 
     return (
@@ -37,7 +51,22 @@ function Layout({ children }) {
                     <Button color='inherit' startIcon={<SettingsIcon />} onClick={() => handleGenerate()}>Generate</Button>
                     
                     <Typography variant="h6" sx={{ flexGrow: 1 }} ></Typography>
-                    <Button color="inherit">Login</Button>
+
+                    {!(isLoggedIn) ? (
+                        <Button color="inherit" onClick={() => handleLogin()}>Login</Button>
+                    ) : (
+                        <div>
+                            <IconButton color='inherit' onClick={(e) => handleMenu(e)}><AccountCircleIcon /></IconButton>
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={() => handleClose()}
+                            >
+                                <MenuItem>My Wishlist</MenuItem>
+                                <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
+                            </Menu>
+                        </div>
+                    )}
                 </Toolbar>
             </AppBar>
 
