@@ -6,21 +6,23 @@ import SendIcon from '@mui/icons-material/Send';
 import Display from '../component/Display';
 import Result from '../component/Result';
 
-const useStyles = makeStyles({
-    submit: {
-        marginLeft: '2%',
-        float: 'right'
-    },
-    container: {
-        marginTop: '2%',
-        marginBottom: '2%'
-    },
-    clear: {
-        float: 'right',
-        marginBottom: '2%'
-    },
-    title: {
-        marginTop: '2%'
+const useStyles = makeStyles((theme) => {
+    return {
+        submit: {
+            marginLeft: '2%',
+            float: 'right'
+        },
+        container: {
+            marginTop: '2%',
+            marginBottom: '2%'
+        },
+        clear: {
+            float: 'right',
+            marginBottom: '2%'
+        },
+        title: {
+            marginTop: '2%'
+        }
     }
 })
 
