@@ -37,7 +37,7 @@ function Layout({ children, isLoggedIn, handleLogout }) {
         setAnchorEl(null)
     }
     
-    function handleMenu(event) {
+    const handleMenu = (event) => {
         setAnchorEl(event.currentTarget)
     }
 
@@ -56,7 +56,7 @@ function Layout({ children, isLoggedIn, handleLogout }) {
                         <Button color="inherit" onClick={() => handleLogin()}>Login</Button>
                     ) : (
                         <div>
-                            <IconButton color='inherit' onClick={(e) => handleMenu(e)}><AccountCircleIcon /></IconButton>
+                            <IconButton color='inherit' onClick={handleMenu}><AccountCircleIcon /></IconButton>
                             <Menu
                                 anchorEl={anchorEl}
                                 open={Boolean(anchorEl)}
