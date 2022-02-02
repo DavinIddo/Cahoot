@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Search from './pages/Search';
 import Generate from './pages/Generate';
 import Layout from "./component/Layout";
-import Login from "./pages/Login";
+import Auth from "./pages/Auth";
 import { useState } from "react";
 
 function App() {
@@ -12,7 +12,15 @@ function App() {
     event.preventDefault()
     console.log(username, password)
 
-    // fetch('link')
+    const data = { 'username': username, 'password': password}
+
+    // fetch('http://localhost:4000/login', {
+    //   method: 'POST',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(data)
+    // })
     // .then(response => response.json())
     // .then(result => {
     //     console.log(result)
@@ -21,6 +29,11 @@ function App() {
     // .catch(error => {
     //     console.log(error)
     // })
+  }
+
+  function handleRegister(event, username, password) {
+    event.preventDefault()
+    console.log(username, password)
   }
 
   function handleLogout() {
@@ -34,7 +47,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Search />} />
             <Route path='/generate' element={<Generate />} />
-            <Route path='/login' element={<Login handleLogin={handleLogin} />} />
+            <Route path='/auth' element={<Auth handleLogin={handleLogin} handleRegister={handleRegister} />} />
           </Routes>
         </Layout>
       </Router>
