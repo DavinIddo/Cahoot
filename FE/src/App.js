@@ -6,13 +6,14 @@ import Auth from "./pages/Auth";
 import { useState } from "react";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false) 
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [registerMessage, setRegisterMessage] = useState({ notif: null, message: '', error: null}) 
 
   function handleLogin(event, username, password) {
     event.preventDefault()
     console.log(username, password)
 
-    const data = { 'username': username, 'password': password}
+    // const data = { 'username': username, 'password': password}
 
     // fetch('http://localhost:4000/login', {
     //   method: 'POST',
@@ -33,7 +34,31 @@ function App() {
 
   function handleRegister(event, username, password) {
     event.preventDefault()
-    console.log(username, password)
+    const data = { 'username': username, 'password': password }
+
+    fetch('http://localhost:4000/register', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if ((result['error']) === null) {
+          setRegisterMessage({ notif: true, message: 'Your registration has complete, you may now login', error: null })
+        } else {
+          setRegisterMessage({ notif: true, message: 'User has already existed, try a different username/password', error: true})
+        }
+
+    })
+    .catch(error => {
+        console.log(error)
+    })
+  }
+
+  function handleNotif() {
+    setRegisterMessage({ notif: null, message: '', error: null})
   }
 
   function handleLogout() {
@@ -47,7 +72,16 @@ function App() {
           <Routes>
             <Route path='/' element={<Search />} />
             <Route path='/generate' element={<Generate />} />
-            <Route path='/auth' element={<Auth handleLogin={handleLogin} handleRegister={handleRegister} />} />
+            <Route path='/auth' 
+              element={
+                <Auth 
+                  handleLogin={handleLogin} 
+                  handleRegister={handleRegister} 
+                  registerMessage={registerMessage} 
+                  handleNotif={handleNotif}
+                />
+              } 
+            />
           </Routes>
         </Layout>
       </Router>

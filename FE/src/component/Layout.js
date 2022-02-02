@@ -30,7 +30,7 @@ function Layout({ children, isLoggedIn, handleLogout }) {
     }
 
     function handleLogin() {
-        navigate('/login')
+        navigate('/auth')
     }
 
     function handleClose() {

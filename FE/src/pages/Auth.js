@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import { Button, Stack, TextField, Typography, Tooltip } from '@mui/material';
 import { Container } from '@mui/material';
 import { makeStyles } from '@material-ui/core';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     }
 })
 
-function Auth({ handleLogin, handleRegister }) {
+function Auth({ handleLogin, handleRegister, registerMessage, handleNotif }) {
     const classes = useStyles()
     const [isLogin, setIsLogin] = useState(true)
     const [username, setUsername] = useState('')
@@ -76,6 +76,36 @@ function Auth({ handleLogin, handleRegister }) {
                         Login
                     </Button>
                 </div>
+            )}
+
+            {(registerMessage['notif'] !== null) && (
+                (registerMessage['error'] === true) ? (
+                    <div>
+                        <Tooltip title='click to close'>
+                            <Button 
+                                variant='text' 
+                                color='error' 
+                                sx={{ marginTop: '2%'}}
+                                onClick={() => handleNotif()}
+                            >
+                                {registerMessage['message']}
+                            </Button>
+                        </Tooltip>
+                    </div>
+                ) : (
+                    <div>
+                        <Tooltip title='click to close'>
+                            <Button 
+                                variant='text' 
+                                color='success' 
+                                sx={{ marginTop: '2%'}}
+                                onClick={() => handleNotif()}
+                            >
+                                {registerMessage['message']}
+                            </Button>
+                        </Tooltip>
+                    </div> 
+                )
             )}
         </Container>
     );
