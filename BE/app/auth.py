@@ -31,7 +31,23 @@ def registration():
 @auth.route('/login', methods=['POST'])
 def login():
     data = request.get_json() 
-    username = data['username']
-    password = data['password']
 
-    return jsonify({'ok': True}), 200
+    username = data['username']
+    password = bytes(data['password'], encoding='utf-8')
+    encoded_password = base64.b64encode(password)
+
+    user_query = mongo.db.users.find({'username': username})
+    sanitized_user = json_util.loads(json_util.dumps(user_query))
+
+    pass_query = mongo.db.users.find({'username': username, 'password': encoded_password})
+    sanitized_pass = json_util.loads(json_util.dumps(pass_query))
+
+    if (sanitized_user):
+        if (sanitized_pass):
+            return jsonify({'error': None, 'message': 'everything is fine'}), 200
+
+        else:
+            return jsonify({'error': True, 'message': 'The password is wrong!'}), 200
+    
+    else:
+        return jsonify({'error': True, 'message': 'User does not exists!'}), 200

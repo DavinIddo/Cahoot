@@ -22,8 +22,12 @@ function App() {
     })
     .then(response => response.json())
     .then(result => {
-        console.log(result)
-        setIsLoggedIn(true)
+        if ((result['error']) === null) {
+          setRegisterMessage({ notif: true, message: 'Login Successful', error: null })
+          setIsLoggedIn(true)
+        } else {
+          setRegisterMessage({ notif: true, message: result['message'], error: true })
+        }
     })
     .catch(error => {
         console.log(error)
