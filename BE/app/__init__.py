@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+from .auth import auth
 from .todos import todos
 from .armors import armors
 from .extension import mongo
@@ -12,5 +13,6 @@ mongo.init_app(app)
 
 app.register_blueprint(todos)
 app.register_blueprint(armors)
+app.register_blueprint(auth)
 
 CORS(app)
