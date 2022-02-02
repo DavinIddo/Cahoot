@@ -17,7 +17,7 @@ def registration():
     password = bytes(data['password'], encoding='utf-8')
     encoded_password = base64.b64encode(password)
 
-    query_result = mongo.db.users.find({'username': username, 'password': encoded_password})
+    query_result = mongo.db.users.find({'username': username})
     sanitized_res = json_util.loads(json_util.dumps(query_result))
 
     if (len(sanitized_res) == 0):
