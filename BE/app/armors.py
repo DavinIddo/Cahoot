@@ -69,6 +69,20 @@ def fetch_armor_with_skill():
 @armors.route("/add_wishlist", methods=['POST'])
 def add_wishlist():
     data = request.get_json()
-    print(data)
+    armor = data['armor']
+    username = data['username']
+    
+    query = mongo.db.wishlists.find_one(
+        {'username': data['username']}
+    )
+
+    if armor not in query['wishlist']: 
+        new_wishlist = query['wishlist']
+        new_wishlist.append(armor)
+
+        mongo.db.wishlists.update_one(
+            { 'username': username },
+            { '$set': { 'wishlist': new_wishlist }}
+        )
 
     return jsonify({'ok': True}), 200
