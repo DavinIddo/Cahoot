@@ -11,7 +11,7 @@ function Result({ armors, isLoggedIn }) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(armors)
+            body: JSON.stringify(armor)
         })
         .then(response => response.json())
         .then(res => {
