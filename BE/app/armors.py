@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template
 from bson import json_util
-import json
 from .extension import mongo
 
 armors = Blueprint('armors', __name__)
@@ -66,3 +65,10 @@ def fetch_armor_with_skill():
     # }
 
     return jsonify(final_result)
+
+@armors.route("/add_wishlist", methods=['POST'])
+def add_wishlist():
+    data = request.get_json()
+    print(data)
+
+    return jsonify({'ok': True}), 200

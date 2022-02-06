@@ -72,7 +72,7 @@ function App() {
       <Router>
         <Layout isLoggedIn={isLoggedIn} handleLogout={handleLogout}>
           <Routes>
-            <Route path='/' element={<Search />} />
+            <Route path='/' element={<Search isLoggedIn={isLoggedIn} />} />
             <Route path='/generate' element={<Generate />} />
             <Route path='/auth' 
               element={
