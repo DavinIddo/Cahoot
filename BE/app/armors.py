@@ -86,3 +86,58 @@ def add_wishlist():
         )
 
     return jsonify({'ok': True}), 200
+
+@armors.route("/get_wishlist/<username>")
+def get_wishlist(username):
+    query_result = mongo.db.wishlists.find_one({ 'username': username })
+    sanitized_result = json_util.loads(json_util.dumps(query_result))
+    sanitized_result['_id'] = str(sanitized_result['_id']) 
+
+    return jsonify(sanitized_result), 200
+
+@armors.route("/delete_wishlist", methods=['POST'])
+def delete_wishlist():
+    data = request.get_json()
+    wishlist = data['wishlist']
+    username = data['username']
+
+    query_result = mongo.db.wishlists.find_one(
+        {'username': username}
+    )
+
+    query_result['wishlist'].remove(wishlist)
+
+    mongo.db.wishlists.update_one(
+        { 'username': username },
+        { '$set': { 'wishlist': query_result['wishlist'] }}
+    )
+
+    sanitized_result = json_util.loads(json_util.dumps(query_result))
+    sanitized_result['_id'] = str(sanitized_result['_id']) 
+
+    sanitized_result['comment'] = 'Wishlist has been updated!'
+
+    return jsonify(sanitized_result), 200
+
+@armors.route("/delete_all_wishlist", methods=['POST'])
+def delete_all_wishlist():
+    data = request.get_json()
+    username = data['username']
+
+    query_result = mongo.db.wishlists.find_one(
+        {'username': username}
+    )
+
+    query_result['wishlist'].clear()
+
+    mongo.db.wishlists.update_one(
+        { 'username': username },
+        { '$set': { 'wishlist': query_result['wishlist'] }}
+    )
+
+    sanitized_result = json_util.loads(json_util.dumps(query_result))
+    sanitized_result['_id'] = str(sanitized_result['_id']) 
+
+    sanitized_result['comment'] = 'Wishlist has been cleared!'
+
+    return jsonify(sanitized_result), 200

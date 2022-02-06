@@ -72,7 +72,7 @@ function App() {
   return (
     <div>
       <Router>
-        <Layout isLoggedIn={isLoggedIn} handleLogout={handleLogout}>
+        <Layout isLoggedIn={isLoggedIn} handleLogout={handleLogout} username={username} >
           <Routes>
             <Route path='/' element={<Search isLoggedIn={isLoggedIn} username={username} />} />
             <Route path='/generate' element={<Generate />} />
