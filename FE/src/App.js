@@ -6,6 +6,7 @@ import Auth from "./pages/Auth";
 import { useState } from "react";
 
 function App() {
+  const [username, setUsername] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [registerMessage, setRegisterMessage] = useState({ notif: null, message: '', error: null}) 
 
@@ -25,6 +26,7 @@ function App() {
         if ((result['error']) === null) {
           setRegisterMessage({ notif: true, message: 'Login Successful', error: null })
           setIsLoggedIn(true)
+          setUsername(result['username'])
         } else {
           setRegisterMessage({ notif: true, message: result['message'], error: true })
         }
@@ -72,7 +74,7 @@ function App() {
       <Router>
         <Layout isLoggedIn={isLoggedIn} handleLogout={handleLogout}>
           <Routes>
-            <Route path='/' element={<Search isLoggedIn={isLoggedIn} />} />
+            <Route path='/' element={<Search isLoggedIn={isLoggedIn} username={username} />} />
             <Route path='/generate' element={<Generate />} />
             <Route path='/auth' 
               element={

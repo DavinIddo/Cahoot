@@ -2,16 +2,18 @@ import { List, ListItem, ListItemText, ListItemIcon, ListItemButton, Tooltip } f
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import React from 'react'
 
-function Result({ armors, isLoggedIn }) {
+function Result({ armors, isLoggedIn, username }) {
     const armor_set = ['helm', 'torso', 'arms', 'waist', 'legs']
 
     function handleClick(armor) {
+        const data = { 'armor': armor['armor'], 'username': username }
+
         fetch('http://localhost:4000/add_wishlist', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(armor)
+            body: JSON.stringify(data)
         })
         .then(response => response.json())
         .then(res => {

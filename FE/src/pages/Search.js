@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => {
     }
 })
 
-function Search({ isLoggedIn }) {
+function Search({ isLoggedIn, username }) {
     const classes = useStyles()
     const [skills, setSkills] = useState([])
     const [checked, setChecked] = useState([])
@@ -151,7 +151,7 @@ function Search({ isLoggedIn }) {
                             </AccordionSummary>
 
                             <AccordionDetails>
-                                <Result armors={result[skill]} isLoggedIn={isLoggedIn} />
+                                <Result armors={result[skill]} isLoggedIn={isLoggedIn} username={username} />
                             </AccordionDetails>
                         </Accordion>
                     ))}

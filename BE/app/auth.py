@@ -22,6 +22,7 @@ def registration():
 
     if (len(sanitized_res) == 0):
         mongo.db.users.insert_one({ 'username': username, 'password': encoded_password })
+        mongo.db.wishlists.insert_one({ 'username': username, 'wishlist': [] })
 
         return jsonify({'error': None}), 200
 
@@ -44,7 +45,7 @@ def login():
 
     if (sanitized_user):
         if (sanitized_pass):
-            return jsonify({'error': None, 'message': 'everything is fine'}), 200
+            return jsonify({'error': None, 'message': 'everything is fine', 'username': username}), 200
 
         else:
             return jsonify({'error': True, 'message': 'The password is wrong!'}), 200
