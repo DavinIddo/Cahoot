@@ -24,8 +24,6 @@ def fetch_armor_with_skill():
 
     armor_set = ['helm', 'torso', 'arms', 'waist', 'legs']
     final_result = {}
-
-    ### ================================ This is stupid ================================ ###
     
     for skill in data['skills']:
         skill_result = {}
@@ -49,9 +47,6 @@ def fetch_armor_with_skill():
                 skill_result[armor] = armor_result
 
         final_result[skill] = skill_result
-
-    ### ================================================================================ ###
-
 
     # result_set = {
     #     'skill_name': {

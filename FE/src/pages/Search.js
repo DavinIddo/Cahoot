@@ -6,23 +6,21 @@ import SendIcon from '@mui/icons-material/Send';
 import Display from '../component/Display';
 import Result from '../component/Result';
 
-const useStyles = makeStyles((theme) => {
-    return {
-        submit: {
-            marginLeft: '2%',
-            float: 'right'
-        },
-        container: {
-            marginTop: '2%',
-            marginBottom: '2%'
-        },
-        clear: {
-            float: 'right',
-            marginBottom: '2%'
-        },
-        title: {
-            marginTop: '2%'
-        }
+const useStyles = makeStyles({
+    submit: {
+        marginLeft: '2%',
+        float: 'right'
+    },
+    container: {
+        marginTop: '2%',
+        marginBottom: '2%'
+    },
+    clear: {
+        float: 'right',
+        marginBottom: '2%'
+    },
+    title: {
+        marginTop: '2%'
     }
 })
 
@@ -77,10 +75,6 @@ function Search({ isLoggedIn, username }) {
         setOpen(false)
     }
 
-    function handleButton() {
-        console.log(result['Speed Sharpening'])
-    }
-
     useEffect(() => {
         fetch('http://localhost:4000/fetch_skills')
         .then(response => response.json())
@@ -133,8 +127,6 @@ function Search({ isLoggedIn, username }) {
                     Clear
                 </Button>
             </div>
-
-            <Button onClick={() => handleButton()}>Button</Button>
 
             <Dialog 
                 open={open}
